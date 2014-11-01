@@ -1,0 +1,30 @@
+Q32. (string conversion) “ABCD1234” ==> “A1B2C3D4”
+void Reverse(char a[], int left, int right) {
+int i,j;
+for(i = left,j = right; i < j; i++,j‐‐) {
+char tmp = a[i];
+a[i] = a[j];
+a[j] = tmp;
+}
+return;
+}
+void convert(char a[], int left, int right) {
+if (right ‐ left <= 1)
+return;
+int size = right ‐ left + 1;
+int mid = left + size/2;
+int leftmid = left + size/4;
+int rightmid = left + size * 3/4;
+Reverse(a, leftmid, mid‐1);
+Reverse(a, mid, rightmid‐1);
+Reverse(a, leftmid, rightmid‐1); // DE123 ‐> 123DE
+convert(a, left, left+2*(leftmid‐left)‐1);
+convert(a, left+2*(leftmid‐left), right);
+}
+int main() {
+char a[] = "ABCDEFG1234567";
+int size = strlen(a);
+convert(a, 0, size‐1);
+cout<<a<<endl;
+return 0
+}
