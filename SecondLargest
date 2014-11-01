@@ -1,0 +1,72 @@
+Q1: (Array) How to use the least number of comparisons to find the largest
+and second largest number?
+struct Node {
+int index; //which index is winner from
+int winner; // value of winner
+int loser; //value of loser
+};
+int find2nd(vector<int>& a) {
+if (a.size() <= 1) return -1;
+int const n = a.size();
+vector<Node> list;
+int layer = 0;
+int j = 0;
+int start = 0;
+layer++;
+for (int i = 0; i < n; i += 2) {
+Node b;
+if (i + 1 < n) {//even number
+if (a[i] > a[i + 1]) {
+b.index = i;
+b.loser = a[i + 1];
+b.winner = a[i];
+} else {
+b.index = i + 1;
+b.loser = a[i];
+b.winner = a[i + 1];
+}
+} else {
+b.index = i;
+b.loser = INT_MIN;
+b.winner = a[i];
+}
+list.push_back(b);
+j++;
+}
+int end = j - 1;
+while (start < end) {
+layer++;
+Node b;
+for (int k = start; k <= end; k += 2) {
+if (k + 1 <= end) {//even number
+if (list[k].winner > list[k + 1].winner) {
+b.index = k;
+b.loser = list[k + 1].winner;
+b.winner = list[k].winner;
+} else {
+b.index = k + 1;
+b.loser = list[k].winner;
+b.winner = list[k + 1].winner;
+}
+} else {
+b.index = k;
+b.loser = INT_MIN;
+b.winner = list[k].winner;
+}
+list.push_back(b);
+j++;
+}
+start = end + 1;
+end = j - 1;
+}
+//track back
+int second = list[list.size() - 1].loser;
+int previous_index = list[list.size() - 1].index;
+int l = 0;
+while (l < layer) {
+second = max(list[previous_index].loser, second);
+previous_index = list[previous_index].index;
+l++;
+}
+return second;
+}
