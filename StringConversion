@@ -28,3 +28,29 @@ convert(a, 0, size‐1);
 cout<<a<<endl;
 return 0
 }
+
+Q33. (string conversion) “A1B2C3D4” ==> “ABCD1234”
+#include <iostream>
+using namespace std;
+void reverse(string &s, int start, int end) {
+while(start < end) {
+swap(s[start], s[end]);
+start++;
+end‐‐;
+}
+}
+void changeOrderHelper(string &s, int start, int end) {
+if (end ‐ start <= 1)
+return;
+int mid = start + (end ‐ start)/2;
+if (mid % 2 == 0) mid = mid + 1;
+changeOrderHelper(s, start, mid);
+changeOrderHelper(s, mid + 1, end);
+reverse(s, start + (mid ‐ start)/2 + 1, mid);
+reverse(s, mid + 1, mid + 1 + (end ‐ mid ‐ 1)/2);
+reverse(s, start + (mid ‐ start)/2 + 1, mid + 1 + (end ‐ mid ‐
+1)/2);
+}
+void changeOrder(string &s) {
+changeOrderHelper(s, 0, s.size() ‐ 1);
+}
