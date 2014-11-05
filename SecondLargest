@@ -59,6 +59,7 @@ j++;
 start = end + 1;
 end = j - 1;
 }
+
 //track back
 int second = list[list.size() - 1].loser;
 int previous_index = list[list.size() - 1].index;
